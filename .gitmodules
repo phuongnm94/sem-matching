@@ -1,0 +1,3 @@
+[submodule "libs/IDSL-semparser"]
+	path = libs/IDSL-semparser
+	url = https://github.com/truongdo619/IDSL-semparser.git
