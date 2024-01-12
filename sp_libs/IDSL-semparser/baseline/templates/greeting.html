@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hieararchical semantic parsing</title>
+    <style>
+      form {
+        width: auto;
+      }
+
+      div {
+        margin-bottom: 20px;
+      }  
+      .select-editable {position:relative; background-color:white; border:solid grey 1px;  width:520px; height:18px;}
+      .select-editable select {position:absolute; top:0px; left:0px; font-size:14px; border:none; width:520px; margin:0;}
+      .select-editable input {position:absolute; top:0px; left:0px; width:500px; padding:1px; font-size:14px; border:none;}
+      .select-editable select:focus, .select-editable input:focus {outline:none;}
+      label {
+        display: inline-block;
+        width: 500px;
+        text-align: left;
+        padding-right: 100px;
+      }
+
+      button, input {
+        float: left;
+      }  
+        .message {
+            padding: 10px;
+            margin: 5px;
+            background-color: #f3f3f3
+        }
+        nav a {
+            color: #d64161;
+            font-size: 3em;
+            margin-left: 50px;
+            text-decoration: none;
+        }
+ 
+    </style>
+  </head>
+
+  <body>
+    <h1>Semantic matching system</h1>
+    
+    <p> <div> Choose sentence pair to compute the semantic score: </div> </p>
+
+    <p>
+    <form method="post" action="{{ url_for('answer_form') }}">
+
+      <div class="select-editable">
+        <select  onchange="this.nextElementSibling.value=this.value">
+          {% for n in all_sents %}
+              <option  
+                value = "{{ n }}"
+                {% if n == question %} selected {% endif %}
+              >{{ n }}</option>
+          {% endfor %}
+        </select>  
+        <input type="text" id="question"  name="question" value="{{ question }}" />
+        <br/>
+      </div> 
+
+
+      <div class="select-editable">
+        <select  onchange="this.nextElementSibling.value=this.value">
+          {% for n in all_sents %}
+              <option  value = "{{ n }}" {% if n == sentence_b %} selected {% endif %}>{{ n }}</option>
+          {% endfor %}
+        </select>  
+        <input type="text" id="sentence_b" name="sentence_b" value="{{ sentence_b }}" />
+        <br/>
+      </div> 
+
+      <div>
+        <button>Send</button>
+      </div>
+    </form>
+    <br/>
+    </p>
+    <hr/>
+
+    <!-- <p>Answer: <text style="color:blue;"> {{answer}}</text> </p> -->
+    <p><b>Sentence 1:</b> {{question}}</p>
+    <p><b>Semantic 1:</b></p>
+    <textarea   rows="2" cols="150"  readonly disabled>{{detail_ans1}}</textarea>
+
+    <hr/>
+    <p><b>Sentence 2:</b> {{sentence_b}}</p>
+    <p><b>Semantic 1:</b></p>
+    <textarea   rows="2" cols="150"  readonly disabled>{{detail_ans2}}</textarea>
+
+    <hr/>
+    <p><b>Semantic matching score:</b> <text style="color:blue;">{{sem_score}}</text></p>
+    <p><b>Word matching score:</b> <text style="color:blue;">{{word_matching_score}}</text></p>
+
+
+    <hr/>
+    <p><b>Semantic matching detail:</b> </p>
+    <textarea   rows="30" cols="150"  readonly disabled>{{semantic_intersection}}</textarea>
+    <p><b>Word matching detail:</b> </p>
+    <textarea   rows="10" cols="150"  readonly disabled>{{word_matching_intersection}}</textarea>
+
+    
+    
+  </body>
+</html>
